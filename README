@@ -1,0 +1,59 @@
+--------------------------------------------------------
+1.Links to S3:
+For friendsimple data:
+Streaming: s3://xli862014/output/friends_simple/streaming/
+Jar: s3://xli862014/output/jar/
+
+For friends1000 data:
+Streaming: s3://xli862014/output/friends_1000/streaming/
+Jar: s3://xli862014/output/jar1000/
+
+--------------------------------------------------------
+2. Local Hadoop Version
+Hadoop Version: 2.2.0
+
+--------------------------------------------------------
+3. Run the streaming programs on AWS EMR
+Cluster Configuration:
+Log folder S3 location: s3://xli862014/log/
+
+Software Configuration:
+Hadoop distribution: Amazon
+AMI version: 2.4.2(hadoop 1.0.3) - latest
+Applications to be installed: none
+
+EC2 instance types and counts: 
+Master: m1.medium, Count 1
+Core: m1.medium, Count 4
+Task: Count 0
+
+Steps:
+Streaming Program:
+Mapper: s3://xli862014/codes/trianglecount.mapper.py
+Reducer: s3://xli862014/codes/trianglecount.reducer.py
+Input S3 location: s3://xli862014/friends1000/
+Output S3 location: s3://xli862014/output/streaming1000/
+Arguments: None
+Action on failure: Continue
+--------------------------------------------------------
+4. Run the Java/Jar program on AWS EMR
+Cluster Configuration:
+Log folder S3 location: s3://xli862014/log/
+
+Software Configuration:
+Hadoop distribution: Amazon
+AMI version: 3.0.3(hadoop 2.2.0)
+Applications to be installed: none
+
+Hardware Configuration:
+EC2 instance types and counts: 
+Master: m1.medium, Count 1
+Core: c1.xlarge, Count 4
+Task: Count 0
+
+Steps:
+Custom JAR: 
+JAR S3 location:s3://xli862014/codes/trianglecount.jar
+Arguments: edu.jhu.cs420.xiaoping.TriangleCount (class path) s3://xli862014/data/friends1000/ (input data) s3://xli862014/output/jar1000/  (output data)
+
+--------------------------------------------------------
